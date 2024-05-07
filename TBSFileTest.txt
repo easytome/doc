@@ -1,0 +1,54 @@
+import os
+import random
+import shutil
+
+# 预置的Java文件路径列表
+java_files_path = "/codes"
+
+# 目标项目路径
+project_path = "/path/to/project"
+
+# 提交消息列表
+commit_messages = [
+    "Add feature",
+    "Fix bug",
+    "Update documentation"
+]
+
+def copy_java_file(file_path, target_path):
+    # 获取文件名
+    file_name = os.path.basename(file_path)
+    
+    # 目标文件路径
+    target_file_path = os.path.join(target_path, file_name)
+    
+    # 如果目标路径已存在同名文件，则先删除
+    if os.path.exists(target_file_path):
+        os.remove(target_file_path)
+    
+    # 复制文件到目标路径
+    shutil.copy(file_path, target_file_path)
+
+def git_commit(commit_message):
+    # 执行git提交命令
+    os.system(f"cd {project_path} && git add .")
+    os.system(f"cd {project_path} && git commit -m \"{commit_message}\"")
+
+# 提示用户输入Java文件路径
+card_id = input("请输入卡片ID：")
+
+# 如果Java文件不存在，则提示用户重新输入
+while not os.path.exists(java_file_path):
+    card_id = input("Java文件不存在，请重新输入Java文件路径：")
+
+# 随机选择一个Java文件
+selected_file = random.choice(os.listdir(java_files_path))
+
+# 复制Java文件到项目路径
+copy_java_file(selected_file, project_path)
+
+# 随机选择一个提交消息
+selected_message = random.choice(commit_messages)
+
+# 提交更改到Git
+git_commit(selected_message)
